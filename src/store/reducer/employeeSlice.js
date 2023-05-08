@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  addNewEmployee,
   deleteEmployee,
   getAllEmployees,
   viewEmployee,
@@ -14,13 +15,19 @@ const initialState = {
   error: true,
   isError: {},
   isSuccess: false,
+  isAddSuccess: '',
   message: '',
 };
 
 const employeeSlice = createSlice({
   name: 'employeeSlice',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    getSuccess: (state, action) => {
+      console.log('action-->', action.payload);
+      state.isAddSuccess = action.payload;
+    },
+  },
 
   extraReducers: function (builder) {
     //Fetch All Employees
@@ -70,7 +77,30 @@ const employeeSlice = createSlice({
       state.isError = action.payload;
       state.message = 'Something Went Wrong!';
     });
+
     // Add Employee
+    builder.addCase(addNewEmployee.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+      state.message = '';
+    });
+
+    builder.addCase(addNewEmployee.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.allEmployees = [...state.allEmployees, action.payload];
+      state.isAddSuccess = action.payload;
+      state.error = false;
+      state.message = 'Employee add success';
+    });
+
+    builder.addCase(addNewEmployee.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = true;
+      state.allEmployees = action.payload;
+      state.isAddSuccess = action.payload;
+      state.isError = action.payload;
+      state.message = 'Something Went Wrong!';
+    });
     // Edit Employee
 
     // Delete Employee
@@ -97,5 +127,7 @@ const employeeSlice = createSlice({
     });
   },
 });
+
+export const { getSuccess } = employeeSlice.actions;
 
 export default employeeSlice.reducer;

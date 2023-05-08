@@ -8,6 +8,15 @@ export const getAllEmployees = createAsyncThunk('employee/get', async () => {
   return response.data.reverse();
 });
 
+export const addNewEmployee = createAsyncThunk(
+  'employee/create',
+  async (eData) => {
+    const response = await RootApi.post(`/employees`, eData);
+    // console.log('response-cr', response);
+    return response.data;
+  }
+);
+
 export const viewEmployee = createAsyncThunk('employee/view', async (empId) => {
   const response = await RootApi.get(`/employees/${empId}`);
   // console.log('response-v', response);
