@@ -13,3 +13,13 @@ export const viewEmployee = createAsyncThunk('employee/view', async (empId) => {
   // console.log('response-v', response);
   return response.data;
 });
+
+export const deleteEmployee = createAsyncThunk(
+  'employee/delete',
+  async (empId) => {
+    const response = await RootApi.delete(`/employees/${empId}`);
+    // console.log('response', response);
+    // useDispatch(getAllUsers());
+    return response.data;
+  }
+);

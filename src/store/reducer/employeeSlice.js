@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllEmployees, viewEmployee } from '../actions/employeeAction';
+import {
+  deleteEmployee,
+  getAllEmployees,
+  viewEmployee,
+} from '../actions/employeeAction';
 
 const initialState = {
   allEmployees: [],
@@ -68,7 +72,29 @@ const employeeSlice = createSlice({
     });
     // Add Employee
     // Edit Employee
+
     // Delete Employee
+    builder.addCase(deleteEmployee.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+      state.message = '';
+    });
+
+    builder.addCase(deleteEmployee.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+      state.isSuccess = true;
+      state.allEmployees = [...state.allEmployees];
+      state.message = 'Employee deleted';
+    });
+
+    builder.addCase(deleteEmployee.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = true;
+      state.isSuccess = false;
+      state.isError = action.payload;
+      state.message = 'Something Went Wrong!';
+    });
   },
 });
 

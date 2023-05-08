@@ -2,9 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import ToastMessage from '../components/ToastMessage';
-import { getAllEmployees, viewEmployee } from '../store/actions/employeeAction';
+import {
+  deleteEmployee,
+  getAllEmployees,
+  viewEmployee,
+} from '../store/actions/employeeAction';
 
 import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
@@ -18,7 +23,7 @@ const EmployeeList = () => {
     (state) => state.employee
   );
 
-  // console.log('allEmployees->', allEmployees);
+  console.log('message->', message);
 
   const loadDetail = (vData) => {
     if (vData !== null) {
@@ -27,6 +32,18 @@ const EmployeeList = () => {
         state: { singleUser: vData },
       });
     }
+  };
+
+  const loadDelete = (dData) => {
+    if (window.confirm('Do you want?')) {
+      dispatch(deleteEmployee(dData.id));
+
+      toast.error('Deleted success!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+
+    dispatch(getAllEmployees());
   };
 
   return (
@@ -99,7 +116,7 @@ const EmployeeList = () => {
                             </button>{' '}
                             &nbsp;
                             <button
-                              onClick={() => {}}
+                              onClick={() => loadDelete(eData)}
                               type="button"
                               className="btn btn-danger"
                             >
