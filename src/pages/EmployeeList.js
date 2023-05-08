@@ -34,6 +34,12 @@ const EmployeeList = () => {
     }
   };
 
+  const loadEdit = (eData) => {
+    navigate(`/employee/edit/${eData.id}`, {
+      state: { singleUser: eData },
+    });
+  };
+
   const loadDelete = (dData) => {
     if (window.confirm('Do you want?')) {
       dispatch(deleteEmployee(dData.id));
@@ -108,7 +114,7 @@ const EmployeeList = () => {
                             </button>{' '}
                             &nbsp;
                             <button
-                              onClick={() => {}}
+                              onClick={() => loadEdit(eData)}
                               type="button"
                               className="btn btn-warning"
                             >

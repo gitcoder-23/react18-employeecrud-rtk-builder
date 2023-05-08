@@ -3,6 +3,7 @@ import {
   addNewEmployee,
   deleteEmployee,
   getAllEmployees,
+  updateEmployee,
   viewEmployee,
 } from '../actions/employeeAction';
 
@@ -101,7 +102,30 @@ const employeeSlice = createSlice({
       state.isError = action.payload;
       state.message = 'Something Went Wrong!';
     });
+
     // Edit Employee
+    builder.addCase(updateEmployee.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+      state.message = '';
+    });
+
+    builder.addCase(updateEmployee.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.allEmployees = [...state.allEmployees, action.payload.id];
+      state.isSuccess = true;
+      state.error = false;
+      state.message = 'Employee add success';
+    });
+
+    builder.addCase(updateEmployee.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = true;
+      state.allEmployees = action.payload;
+      state.isSuccess = false;
+      state.isError = action.payload;
+      state.message = 'Something Went Wrong!';
+    });
 
     // Delete Employee
     builder.addCase(deleteEmployee.pending, (state) => {

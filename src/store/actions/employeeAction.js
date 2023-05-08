@@ -17,6 +17,17 @@ export const addNewEmployee = createAsyncThunk(
   }
 );
 
+export const updateEmployee = createAsyncThunk(
+  'employee/edit',
+  async ({ editEmp, empId }) => {
+    console.log('empId-e', editEmp, empId);
+
+    const response = await RootApi.put(`/employees/${empId}`, editEmp);
+    console.log('response-e', response);
+    return response.data;
+  }
+);
+
 export const viewEmployee = createAsyncThunk('employee/view', async (empId) => {
   const response = await RootApi.get(`/employees/${empId}`);
   // console.log('response-v', response);
