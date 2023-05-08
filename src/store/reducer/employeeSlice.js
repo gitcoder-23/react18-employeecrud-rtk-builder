@@ -88,7 +88,7 @@ const employeeSlice = createSlice({
     builder.addCase(addNewEmployee.fulfilled, (state, action) => {
       state.isLoading = false;
       state.allEmployees = [...state.allEmployees, action.payload];
-      state.isAddSuccess = action.payload;
+      state.isSuccess = true;
       state.error = false;
       state.message = 'Employee add success';
     });
@@ -97,7 +97,7 @@ const employeeSlice = createSlice({
       state.isLoading = false;
       state.error = true;
       state.allEmployees = action.payload;
-      state.isAddSuccess = action.payload;
+      state.isSuccess = false;
       state.isError = action.payload;
       state.message = 'Something Went Wrong!';
     });
