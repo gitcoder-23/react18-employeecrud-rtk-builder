@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ToastMessage from '../components/ToastMessage';
-import { getAllEmployees } from '../store/actions/employeeAction';
+import { getAllEmployees, viewEmployee } from '../store/actions/employeeAction';
 
 import Loader from '../components/Loader';
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllEmployees());
@@ -17,7 +18,16 @@ const EmployeeList = () => {
     (state) => state.employee
   );
 
-  console.log('allEmployees->', allEmployees);
+  // console.log('allEmployees->', allEmployees);
+
+  const loadDetail = (vData) => {
+    if (vData !== null) {
+      dispatch(viewEmployee(vData.id));
+      navigate(`/employee/detail/${vData.id}`, {
+        state: { singleUser: vData },
+      });
+    }
+  };
 
   return (
     <>
@@ -73,7 +83,7 @@ const EmployeeList = () => {
                           </td>
                           <td>
                             <button
-                              onClick={() => {}}
+                              onClick={() => loadDetail(eData)}
                               type="button"
                               className="btn btn-info"
                             >
