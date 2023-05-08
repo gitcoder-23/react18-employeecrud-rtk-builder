@@ -13,7 +13,7 @@ const EmployeeList = () => {
     dispatch(getAllEmployees());
   }, []);
 
-  const { allEmployees, isLoading, error, isSuccess, message } = useSelector(
+  const { allEmployees, isLoading, message } = useSelector(
     (state) => state.employee
   );
 
